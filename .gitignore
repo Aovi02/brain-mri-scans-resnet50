@@ -1,0 +1,54 @@
+# Source dataset and downloaded archives
+/archive/
+*.zip
+kaggle.json
+
+# Python environments and caches
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local environment variables
+.env
+.env.*
+!.env.example
+
+# Jupyter
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+# Trained models and TensorFlow artifacts
+*.keras
+*.h5
+logs/
+tensorboard/
+
+# Ignore generated outputs by default. Only the small, publication-safe
+# aggregate metrics and plots below are included in the repository.
+/outputs/*
+!/outputs/*_history.csv
+!/outputs/dataset_cleaning_summary.csv
+!/outputs/model_validation_comparison.csv
+!/outputs/selected_model_test_metrics.csv
+!/outputs/class_counts.png
+!/outputs/image_dimension_distributions.png
+!/outputs/*_training_curves.png
+!/outputs/selected_model_test_confusion_matrix.png
+
+# Local editor and agent configuration
+.vscode/
+.idea/
+.agents/
+.codex/
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
