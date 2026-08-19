@@ -112,37 +112,6 @@ The notebook generates `outputs/gradcam_examples.png` locally. That file is inte
 
 The MRI files are not redistributed in this repository. Download **[Brain MRI Images for Brain Tumor Detection](https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detection)** from Kaggle and credit the dataset creator in any derivative work.
 
-Before redistributing MRI files or figures containing them, review the current license displayed on the Kaggle dataset page. Being able to download a public dataset does not by itself establish permission to republish it elsewhere.
-
-### Option 1: manual download
-
-1. Open the Kaggle dataset page and select **Download**.
-2. Extract the archive into this repository's `archive/` directory.
-3. Confirm that the retained dataset has the following layout:
-
-```text
-archive/
-`-- brain_tumor_dataset/
-    |-- no/
-    `-- yes/
-```
-
-The Kaggle archive may also contain duplicated top-level `yes/` and `no/` directories. The notebook deliberately uses only `archive/brain_tumor_dataset` and performs content-hash deduplication within that retained copy.
-
-### Option 2: Kaggle CLI
-
-After configuring your Kaggle API credentials, run:
-
-```bash
-python -m pip install kaggle
-kaggle datasets download \
-  -d navoneel/brain-mri-images-for-brain-tumor-detection \
-  -p archive \
-  --unzip
-```
-
-Never commit `kaggle.json`; it may contain an API token and is covered by this repository's `.gitignore`.
-
 ## Run the project
 
 The notebook was executed with Python 3.12 and expects the dataset at `archive/brain_tumor_dataset`.
@@ -157,34 +126,6 @@ python -m pip install --upgrade pip
 python -m pip install jupyter tensorflow pandas numpy scikit-learn matplotlib seaborn pillow
 jupyter notebook brain_tumor_mri_resnet_pipeline.ipynb
 ```
-
-Run the notebook from the repository root. The first ResNet50 run downloads ImageNet weights if they are not already cached. All generated artifacts are written to `outputs/`. The `.gitignore` permits only small aggregate metrics and publication-safe plots; raw metadata, split manifests with local paths, scan-containing figures, and trained models remain local.
-
-For a quick review without retraining, open [`brain_tumor_mri_resnet_pipeline.ipynb`](brain_tumor_mri_resnet_pipeline.ipynb) and inspect the included artifacts:
-
-- [`model_validation_comparison.csv`](outputs/model_validation_comparison.csv) — side-by-side validation metrics.
-- [`selected_model_test_metrics.csv`](outputs/selected_model_test_metrics.csv) — final held-out test performance.
-- [`dataset_cleaning_summary.csv`](outputs/dataset_cleaning_summary.csv) — raw and deduplicated sample counts.
-- [`fine-tuned_resnet50_training_curves.png`](outputs/fine-tuned_resnet50_training_curves.png) — optimization behavior.
-- [`selected_model_test_confusion_matrix.png`](outputs/selected_model_test_confusion_matrix.png) — error distribution.
-
-## Model artifacts
-
-Training creates several Keras checkpoints, including `outputs/selected_brain_tumor_model.keras`. These binaries are intentionally excluded from Git history: the selected model is approximately 218 MB, while the intermediate checkpoints add substantial repository weight.
-
-For a portfolio repository, publish only the selected model as an optional **GitHub Release asset** and link to that release from this section. Anyone who only wants to inspect or reproduce the work can use the notebook without downloading a checkpoint. Keep the proof-of-concept and non-clinical-use warning with any distributed model.
-
-## Publishing notes
-
-The ignore rules are designed so the repository can be staged safely after the README and `.gitignore` are committed:
-
-- `archive/` and downloaded ZIP files stay local.
-- Keras models and TensorFlow logs stay local.
-- Metadata and split CSVs containing absolute workstation paths stay local.
-- `class_sample_images.png` and `gradcam_examples.png` stay local because they reproduce dataset images.
-- Aggregate metrics, learning histories, training curves, EDA summaries, and the confusion matrix remain eligible for publication.
-
-Jupyter stores rendered outputs inside the `.ipynb` file itself, which `.gitignore` cannot filter. Before committing an executed notebook, clear the outputs of cells that display sample MRIs or Grad-CAM overlays unless the dataset license explicitly allows those images to be republished.
 
 ## Key findings
 
