@@ -1,0 +1,3 @@
+stage,total_images,yes_images,no_images,duplicates_removed
+raw,253,155,98,0
+deduplicated,228,141,87,25
